@@ -1,0 +1,7 @@
+div(id="#{name}-#{x}", class="item")
+  div(class="form-group")
+    div(class="input-group")
+      form(class="form-inline", action="/change", method="POST")
+        input(type="text", class="form-control", value="#{item}", name="name")
+      div(class="input-group-addon")
+        a(href="##{item}", value="#{x}" class="drop", list="#{name}") -

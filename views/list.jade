@@ -1,0 +1,18 @@
+h1 #{name}:
+form(class="form-inline", action="/drop", method="POST")
+  input(type="hidden", name="name", value="#{name}")
+  button(class="btn", type="submit") DELETE LIST
+div(id="#{name}-elements")
+  - var x = 0
+  each item in list
+    include list-item
+    -x += 1
+
+div
+  form(class="form-inline add", action="/list/add", method="POST")
+    div(class="form-group")
+      div(class="input-group")
+        input(type="text", class="form-control", placeholder="new item", name="item")
+        input(type="hidden", name="name", value="#{name}")
+        div(class="input-group-addon")
+          button(type="submit", class="btn")

@@ -1,0 +1,22 @@
+extends default.jade
+
+block content
+  ul(class="nav nav-tabs", role="tablist")
+    each item in files
+        li
+          a(href="##{item}", data-toggle="tab") #{item}
+
+
+  div(class="tab-content")
+    each item in files
+        div(class="tab-pane", id="#{item}")
+
+  hr
+  
+  div(class="form-div")
+    form(class="form-inline", action="/add", method="POST")
+      div(class="form-group")
+        div(class="input-group")
+          input(type="text", class="form-control", placeholder="new list", name="name")
+          div(class="input-group-addon")
+            button(type="submit", value="+", class="btn btn-primary")
