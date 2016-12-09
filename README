@@ -1,0 +1,46 @@
+List app/server using 
+Node.js, Express.js, body-parser, jade/pug
+for use on home network running on a Beaglebone Black.
+
+Instructions for BBB setup:
+
+
+to get port 53 open on BBB:
+  add --nodnsproxy to the /usr/sbin/connman line
+  in the file /lib/systemd/system/connman.service
+
+To get port 80 open / kill the BBB internal server:
+  go to /etc
+  update-rc.d apache2 disable 5
+  /init.d/apache2 stop
+
+
+To get nameserver working:
+  install dnsmasq
+  edit /etc/dnsmasq.conf
+  address=/.local/bbbIPaddress
+  interface=eth0
+  restart dnsmasq
+  check /etc/hosts, should have
+  bbbIPadress \t beaglebone.local \t beaglebone
+  
+Node app:
+  make a service file
+/lib/systemd/system/appname.service:
+[Unit]
+Description=appname.js
+After=network.target
+
+[Service]
+Environment=NODE_PORT=80
+User=root
+ExecStart=/path/to/app/appname.js
+Restart=always
+WorkingDirectory=/path/to/app/or/some/other/place
+
+[Install]
+WantedBy=multi-user.target
+
+systemctl daemon-reload
+systemctl start appname
+journalctl --follow -u appname // for seeing what happens
